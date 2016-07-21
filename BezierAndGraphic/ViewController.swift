@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-// MARK: ViewContrller 生命周期
+// MARK: - ViewContrller 生命周期
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -57,12 +58,35 @@ class ViewController: UIViewController {
 //        layer.strokeColor = UIColor.blackColor().CGColor
 //        view.layer.addSublayer(layer)
         
+        
 //        drawCurvLine()
-        animation2()
+//        animation3()
+        drawMagicLayer()
         
     }
     
-// MARK: 画Bezier曲线
+// MARK: - 画不规则Layer
+    func drawMagicLayer() -> () {
+        let finalSize = CGSizeMake(CGRectGetWidth(view.frame), 400)
+        let layerHeight = finalSize.height * 0.2
+        let layer = CAShapeLayer()
+        let bezier = UIBezierPath()
+        bezier.moveToPoint(CGPointMake(0, finalSize.height - layerHeight))
+        bezier.addLineToPoint(CGPointMake(0, finalSize.height - 1))
+        bezier.addLineToPoint(CGPointMake(finalSize.width, finalSize.height - 1))
+        bezier.addLineToPoint(CGPointMake(finalSize.width, finalSize.height - layerHeight))
+        bezier.addQuadCurveToPoint(CGPointMake(0,finalSize.height - layerHeight),
+                                   controlPoint: CGPointMake(finalSize.width / 2, (finalSize.height - layerHeight) - 40))
+        layer.path = bezier.CGPath
+        layer.fillColor = UIColor.blackColor().CGColor
+        view.layer.addSublayer(layer)
+    }
+    
+    
+    
+    
+    
+// MARK: - 画Bezier曲线
     func drawCurvLine() -> () {
         let startPoint = CGPointMake(50, 300)
         let endPoint = CGPointMake(300, 300)
@@ -100,7 +124,7 @@ class ViewController: UIViewController {
     }
     
     
-// MARK: 画Bezier曲线，并根据CALayer的属性添加动画
+// MARK: - 画Bezier曲线，并根据CALayer的属性添加动画
     private func animation1() -> () {
         let startPoint = CGPointMake(50, 300)
         let endPoint = CGPointMake(300, 300)
@@ -189,7 +213,7 @@ class ViewController: UIViewController {
     
     
     
-// MARK: 系统函数
+// MARK: - 系统函数
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
